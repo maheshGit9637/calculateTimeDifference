@@ -27,6 +27,12 @@
         button:hover {
             background-color: #45a049;
         }
+        .reset-btn {
+            background-color: #f44336;
+        }
+        .reset-btn:hover {
+            background-color: #e53935;
+        }
     </style>
 </head>
 <body>
@@ -45,6 +51,7 @@
 
     <div class="container">
         <button onclick="calculateDifference()">Calculate Difference</button>
+        <button class="reset-btn" onclick="resetForm()">Reset</button>
     </div>
 
     <div class="container">
@@ -66,6 +73,7 @@
             dateFormat: "H:i", // 24-hour format
         });
 
+        // Function to calculate time difference
         function calculateDifference() {
             // Get the start and end time values from the time picker inputs
             const startTime = document.getElementById("startTime").value;
@@ -94,6 +102,14 @@
             } else {
                 alert("Please enter both start and end times.");
             }
+        }
+
+        // Function to reset the form
+        function resetForm() {
+            // Clear the input fields
+            document.getElementById("startTime").value = '';
+            document.getElementById("endTime").value = '';
+            document.getElementById("timeDifference").value = '';
         }
     </script>
 
