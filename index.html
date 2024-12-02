@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Time Difference Calculator with Time Picker</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        .container {
+            margin: 10px;
+        }
+        input[type="text"], input[type="time"] {
+            padding: 10px;
+            margin: 10px 0;
+        }
+        button {
+            padding: 10px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Time Difference Calculator with Time Picker</h2>
+
+    <div class="container">
+        <label for="startTime">Start Time:</label>
+        <input type="text" id="startTime" placeholder="Pick start time" required>
+    </div>
+
+    <div class="container">
+        <label for="endTime">End Time:</label>
+        <input type="text" id="endTime" placeholder="Pick end time" required>
+    </div>
+
+    <div class="container">
+        <button onclick="calculateDifference()">Calculate Difference</button>
+    </div>
+
+    <div class="container">
+        <label for="timeDifference">Time Difference (in hours and minutes):</label>
+        <input type="text" id="timeDifference" readonly>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script>
+        // Initialize the flatpickr for time picker
+        flatpickr("#startTime", {
+            enableTime: true,
+            noCalendar: true,
+            dateFormat: "H:i", // 24-hour format
+        });
+        flatpickr("#endTime", {
+            enableTime: true,
+            noCalendar: true,
+            dateFormat: "H:i", // 24-hour format
+        });
+
+        function calculateDifference() {
+            // Get the start and end time values from the time picker inputs
+            const startTime = document.getElementById("startTime").value;
+            const endTime = document.getElementById("endTime").value;
+
+            // Check if both times are selected
+            if (startTime && endTime) {
+                // Convert time strings to Date objects (using today's date)
+                const start = new Date("1970-01-01T" + startTime + "Z");
+                const end = new Date("1970-01-01T" + endTime + "Z");
+
+                // Calculate the difference in milliseconds
+                let diff = end - start;
+
+                // If end time is earlier than start time, adjust for next day (24-hour cycle)
+                if (diff < 0) {
+                    diff += 24 * 60 * 60 * 1000;  // Add 24 hours in milliseconds
+                }
+
+                // Convert milliseconds to hours and minutes
+                const hours = Math.floor(diff / (1000 * 60 * 60)); // Get the number of hours
+                const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60)); // Get remaining minutes
+
+                // Display the result in the text box
+                document.getElementById("timeDifference").value = `${hours} hours and ${minutes} minutes`;
+            } else {
+                alert("Please enter both start and end times.");
+            }
+        }
+    </script>
+
+</body>
+</html>
